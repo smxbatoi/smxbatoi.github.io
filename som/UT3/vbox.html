@@ -1,0 +1,213 @@
+<h1 id="ut-3.-virtualbox">UT 3. VirtualBox</h1>
+<ul>
+<li><a href="#virtualbox">VirtualBox</a>
+<ul>
+<li><a href="#introducción">Introducción</a></li>
+<li><a href="#virtualbox-guest-additions">VirtualBox Guest Additions</a></li>
+<li><a href="#compartir-carpetas-entre-anfitrión-y-huésped">Compartir carpetas entre anfitrión y huésped</a></li>
+<li><a href="#importar-y-exportar-máquinas-virtuales">Importar y exportar máquinas virtuales</a></li>
+<li><a href="#clonar-una-máquina-virtual">Clonar una máquina virtual</a></li>
+<li><a href="#almacenamiento-en-virtualbox">Almacenamiento en VirtualBox</a>
+<ul>
+<li><a href="#administrador-de-medios-virtuals">Administrador de medios virtuales</a></li>
+<li><a href="#añadir-un-disco-adicional-a-una-máquina">Añadir un disco adicional a una máquina</a></li>
+<li><a href="#clonar-un-disco-duro">Clonar un disco duro</a></li>
+<li><a href="#cambiar-el-cd">Cambiar el CD</a></li>
+</ul></li>
+<li><a href="#la-red-en-virtualbox">La red en VirtualBox</a>
+<ul>
+<li><a href="#nat">NAT</a></li>
+<li><a href="#red-nat">Red NAT</a></li>
+<li><a href="#adaptador-puente">Adaptador puente</a></li>
+<li><a href="#red-interna">Red interna</a></li>
+<li><a href="#adaptador-solo-anfitrión">Adaptador solo anfitrión</a></li>
+<li><a href="#cambiar-el-tipo-de-la-red">Cambiar el tipo de la red</a></li>
+</ul></li>
+<li><a href="#snapshots-o-instantáneas">Snapshots o Instantáneas</a></li>
+</ul></li>
+</ul>
+<h2 id="introducción">Introducción</h2>
+<p>Es un programa de virtualización de hardware que permite crear diferentes máquinas virtuales en el ordenador en que se instala. Se trata de un hipervisor de tipo 2 por lo tanto funciona como un programa más de la máquina <em>huesped</em>. Hay versiones de VirtualBox para GNU/Linux, Windows y Mac OS X (entre otros).</p>
+<p>Este programa fue creado por la empresa <em><strong>Innotek GmbH</strong></em> que creó también una versión OSE (<em>Open Source Edition</em>) con licencia GPL (software libre). Esta empresa fue adquirida por <em>Sun Microsystems</em> en 2008 que fue comprada por <em><strong>Oracle Corporation</strong></em> en 2010 por el que ahora el programa se llama <em>Oracle Virtualbox</em>. Hay una versión con licencia propietaria que es gratis para uso personal y una <strong>versió OSE</strong> con licencia GPL.</p>
+<p>Virtualbox permite montar fichero <code>.iso</code> como unidades ópticas de las M.V. Respecto a los discos duros, cadauno se almacena como un archivo con extensión <code>.vdi</code> (o <code>.vmdk</code>).</p>
+<p>Para cada máquina virtual se crea un directorio con el nombre de la máquina (por defecto dentro de un directorio llamado <strong>VirtualBox VMs</strong>) en el cual se guardan sus ficheros (incluyendo sus discos duros). Su configuración se guarda en un fichero XML con el nombre de la máquina y extensión <code>.vbox</code>.</p>
+<p>Una vez instalado VirtualBox en nuestra máquina instalaremos el <a href="https://www.virtualbox.org/wiki/Downloads"><strong>VirtualBox Extension Pack</strong></a> (se descarga también de la web de VirtualBox) con mejoras como soporte para USB 2.0 y 3.0 y otros.</p>
+<p>Para poder instalar sistemas operativos de 64 bits es necesario tener habilitada en la BIOS de nuestro equipo la virtualización como hemos comentado antes. Si no lo tenemos no podremos abrir ninguna máquina de 64 bits y obtendremos el error:</p>
+<figure>
+<img src="img/bios.png" alt="BIOS no configurada" /><figcaption aria-hidden="true">BIOS no configurada</figcaption>
+</figure>
+<p>En el <a href="https://www.virtualbox.org/manual/UserManual.html">manual de VirtualBox</a> podemos conocer más información sobre el funcionamiento de este software.</p>
+<h2 id="virtualbox-guest-additions">VirtualBox Guest Additions</h2>
+<p>En cada máquina virtual que creamos poder instalar las <em>Guest Additions</em> que son un programa con drivers y mejoras para el sistema operativo de esa máquina, como: - driver mejorado de video, que permite redimensionar la pantalla y cambiar la resolución así como utilizar aceleración de video 3D y 2D - que el host sincronice la hora en la máquina guest - integración del ratón y lo teclado para no tener que polsar la tecla <em>Host</em> (por defecto el <em>Ctrl</em> de la derecha del teclado) para cambiar el ratón de la máquina host a la máquina virtual - compartir carpetas entre la máquina host y la virtual - compartir el portapapeles entre la máquina real y la virtual</p>
+<p>Para instalar las <em>Guest Additions</em> las montamos en la unidad óptica de la máquina virtual como si fuera un cd (tenemos la opción de montarlo en el menú <code>Dispositivos -&gt; Insertar imagen de CD de las Guest Additions</code>).</p>
+<figure>
+<img src="img/guestadditions.png" alt="Instalar las Guest Additions" /><figcaption aria-hidden="true">Instalar las Guest Additions</figcaption>
+</figure>
+<p>A continuación obrimos el CD y ejecutamos el programa <em><strong>VBoxWindowsAdditions.exe</strong></em> si el S.O. de la máquina virtual es Windows</p>
+<figure>
+<img src="img/guestadd_instal.png" alt="Instalar las Guest Additions Windows" /><figcaption aria-hidden="true">Instalar las Guest Additions Windows</figcaption>
+</figure>
+<p>Si es GNU/Linux, debemos ejecutar <em><strong>VBoxLinuxAdditions.sh</strong></em> . Para ello hay que pinchar en Abrir Autorun Prompt o también se puede ejecutar el archivo autorun.sh</p>
+<figure>
+<img src="img/guest_Linux.png" alt="Installar las Guest Additions Linux" /><figcaption aria-hidden="true">Installar las Guest Additions Linux</figcaption>
+</figure>
+<p>En caso de que esto no funcione podemos ejecutar el programa directamente desde la terminal. Para ello:</p>
+<ul>
+<li><p>Abrimos la terminal del sistema</p></li>
+<li><p>Vamos a la carpeta de las Guest Additions. En la imagen es /media/batoi/VBox_GAs_6.1.12. EL comando a teclear es:</p></li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /media/batoi/VBox_GAs_6.1.12</span></code></pre></div>
+<ul>
+<li>Ejecutamos la fichero VBoxLinuxAdditions con sudo delante:</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> sh VBoxLinuxAdditions</span></code></pre></div>
+<h2 id="compartir-carpetas-entre-la-máquina-real-y-la-virtual">Compartir carpetas entre la máquina real y la virtual</h2>
+<p>Una carpeta compartida es una carpeta del host accesible desde una máquina virtual. Para compartir carpetas debemos tener instaladas las <em>Guest Additions</em> en la máquina virtual. La carpeta compartida se crea desde la máquina virtual en el menú <code>Dispositivos -&gt; Carpetas compartidas</code>.</p>
+<p>A continuación seleccionamos la carpeta del host a compartir, le damos un nombre para el guest y marcamos las opciones que queramos (como <em>automontar</em> para que se monte automáticamente o <em>Hacer permanente</em> para continuar teniendo la carpeta compartida si reiniciamos la máquina virtual). También indicamos donde queremos que se monte esta carpeta (en una letra de unidad en Windows o un directorio en GNU/Linux)</p>
+<figure>
+<img src="img/compartircarpetaconfig.png" alt="Compartir carpeta" /><figcaption aria-hidden="true">Compartir carpeta</figcaption>
+</figure>
+<p>Con eso ya tendremos la carpeta montada en la ruta indicada.</p>
+<figure>
+<img src="img/carpetacompartida_muntada.png" alt="Carpeta montada" /><figcaption aria-hidden="true">Carpeta montada</figcaption>
+</figure>
+<p>Sino introducimos una ruta de montaje tendremos la carpeta en una ubicación dentro de <strong>vboxsvr</strong> y faltaría montarla por comodidad. Por ejemplo, en Windows podriamos conectar la unidad de red <code>\\vboxsvr\compartida</code>.</p>
+<h2 id="importar-y-exportar-máquinas-virtuales">Importar y exportar máquinas virtuales</h2>
+<p>En el menú <code>Archivo -&gt; Importar/Exportar servicio virtualizado</code> de VirtualBox encontramos opciones para importar y exportar máquinas virtuales.</p>
+<figure>
+<img src="img/exportar-ova.png" alt="Exportar" /><figcaption aria-hidden="true">Exportar</figcaption>
+</figure>
+<p>La exportación crea un archivo comprimido en el cual se guarda toda la información de configuración de la máquina virtual, así como todos sus discos duros con los datos, aplicaciones… del sistema operativo guest. La extensión de este tipo de fichero es <code>.ova</code>.</p>
+<p>La importación de un fichero <strong>ova</strong> crea una nueva máquina virtual exactamente igual a la que se exportó.</p>
+<h2 id="clonar-una-máquina-virtual">Clonar una máquina virtual</h2>
+<p>Nos permite tener una nueva máquina exactamente igual a otra que ya tenemos. Esta opción la encontramos en el menú <code>máquina -&gt; Clonar</code>.</p>
+<p>La clonación es de 2 tipos: - <strong>completa</strong>: se hace una copia de toda la máquina, incluyendo su disco duro. Con esto tenemos 2 máquinas iguales pero independientes.</p>
+<ul>
+<li><strong>enlazada</strong>: no se copia el disco duro entero sino que se hace una instantánea del disco duro original (después veremos qué es). Esto hace que la copia ocupe muy poco espacio pero, a cambio si eliminamos la máquina original (o la llevamos al otro equipo), la máquina clonada dejará de funcionar porque su disco está vinculado al original.</li>
+</ul>
+<h2 id="almacenamiento-en-virtualbox">Almacenamiento en VirtualBox</h2>
+<p>La parte más importante de nuestro sistema es donde guardamos los datos de la M.V. El disco duro es un fichero que se guarda en la máquina real con extensión <strong><code>vdi</code></strong> en la carpeta de nuestro directorio de inicio denominada <strong>VirtualBox VMs</strong>. VirtualBox también puede trabajar con discos de VMware, con extensión <code>vmdk</code> (nos pregunta el formato en la hora de crear un nuevo disco).</p>
+<figure>
+<img src="img/ruta.png" alt="ruta" /><figcaption aria-hidden="true">ruta</figcaption>
+</figure>
+<p>Una cuestión muy importante al crear un nuevo disco llevar es si lo queremos de <strong>expansión dinámica</strong> o de <strong>tamaño fijo</strong>. Nosotros siempre elegiremos la primera opción que hará que el fichero <code>.vdi</code> creado no tenga todo el tamaño de disco propuesto sino que tendrá solo el espacio necesario para guardar la información que contiene e irá aumentándolo según vayamos guardando datos en la máquina virtual.</p>
+<h3 id="administrador-de-medios-virtuales">Administrador de medios virtuales</h3>
+<p>Es una herramienta a la que accedemos desde el menú <code>Archivo -&gt; Administrador de medios virtuales</code> y que nos permite gestionar los discos duros y CDs de todas las máquinas virtuales.</p>
+<figure>
+<img src="./img/adm-med-virt.png" alt="Administrador de medios virtuales" /><figcaption aria-hidden="true">Administrador de medios virtuales</figcaption>
+</figure>
+<p>Tenemos 3 pestañas diferentes para gestionar los discos duros, los CDs y los disquetes. En la pestaña de los discos duros podemos ver la medida virtual del disco (la que se piensa que tiene la máquina virtual que es el máximo que podría llegar a tener) y la medida real del disco que es la que ocupa el fichero <code>vdi</code> en el disco duro real.</p>
+<p>Es necesario tener siempre en cuenta que este disco va creciendo según la máquina virtual necesite más espacio.</p>
+<p>Si pulsamos el icono de <strong>Propiedades</strong> podemos ver en la parte inferior de la pantalla los datos de este disco:</p>
+<ul>
+<li><p><strong>Atributos</strong>: contiene la ubicación del fichero (y permite cambiar su nombre), su descripción y su medida (y podemos cambiarla desde aquí).</p></li>
+<li><p><strong>Información</strong>: aquí nos muestra el formato del disco (vdi o vmdk), el tipo (si es reservado dinámicamente) o a qué máquina virtual está conectado (podría estar conectado además de una).</p></li>
+</ul>
+<p>Otras acciones que podemos hacer desde aquí son:</p>
+<ul>
+<li><p><strong>Copiar</strong>: permite hacer una copia de un disco duro (se explica en detalle más adelante).</p></li>
+<li><p><strong>Liberar</strong>: permite desconectar un disco de la máquina a la que pertenece.</p></li>
+<li><p><strong>Eliminar</strong>: elimina el fichero del disco duro. Solo puede eliminarse si no está conectado a ninguna máquina virtual. En ese caso, antes lo tenemos que liberar.</p></li>
+</ul>
+<h3 id="añadir-un-disco-adicional-a-una-máquina">Añadir un disco adicional a una máquina</h3>
+<p>En la configuración de nuestra máquina virtual, dentro del apartado de almacenamiento, aparecen las unidades de disco y CD que tiene la máquina virtual. Desde aquí podemos en cualquier momento añadir o quitar un disco duro a la máquina.</p>
+<p>Igual que en un PC real, cuando añadimos un disco duro tenemos que elegir entre un disco SATA, IDE, SCSI, …</p>
+<p>Para añadir un disco a un controlador existente (IDE o SATA) seleccionamos el controlador y en los iconos que aparecen a la derecha elegimos si queremos añadir un dispositivo de CD/DVD o un nuevo disco duro al controlador.</p>
+<figure>
+<img src="./img/control-sata.png" alt="SATA Controller" /><figcaption aria-hidden="true">SATA Controller</figcaption>
+</figure>
+<p>También tenemos en la parte inferior del árbol de almacenamiento un icono para añadir un nuevo controlador que puede ser SCSI, SAS o de disquette además de IDE o SATA.</p>
+<p>Si optamos por un disco SATA no hay que configurar nada. Simplemente añadir el disco e indicar en qué puerto SATA se encuentra (del 0 al 29).</p>
+<figure>
+<img src="./img/disco-sata.png" alt="Disco SATA" /><figcaption aria-hidden="true">Disco SATA</figcaption>
+</figure>
+<p>En el caso de los discos IDE tenemos que indicar si será el primario o el secundario y dentro de cada uno si es el maestro o el esclavo.</p>
+<blockquote>
+<p>NOTA: si en una máquina virtual hemos instalado un sistema operativo en un disco configurado cómo IDE (o SATA) y después lo arrancamos en una máquina donde está configurado como SATA (o IDE) el sistema podría no arrancar correctamente.</p>
+</blockquote>
+<h3 id="clonar-un-disco-duro">Clonar un disco duro</h3>
+<p>Desde el administrador de medios virtuales podemos ver todos los discos duros que estamos utilizando en nuestras máquinas o aquellos que tenemos preparados para utilizarse.</p>
+<p>A veces queremos hacer una copia de un disco existente para tener una segunda máquina virtual. Por ejemplo si necesitamos 2 clientes Windows no tiene sentido instalar y configurar el sistema operativo en cada máquina sino que lo hacemos una vez y después tenemos 2 opciones:</p>
+<ul>
+<li><p><strong>clonamos la máquina virtual</strong> (desde el menú <code>máquina -&gt; Clonar</code>) para tener 2 máquinas iguales</p></li>
+<li><p><strong>copiamos el disco duro</strong> (desde el Administrador de medios virtuales) para tener un disco duro igual con el sistema operativo ya instalado y conectarlo a una máquina virtual que ya tengamos hecha.</p></li>
+</ul>
+<blockquote>
+<p>Para copiar un disco duro no podemos simplemente copiar el fichero <code>.vdi</code> que constituye el disco de la máquina porque cada disco es único y tiene un código que lo identifica, su <code>UUID</code>. Si lo hacemos, al intentar añadir el disco copiado a VirtualBox obtendremos un mensaje de error indicando que ya tenemos un disco duro con ese UUID. Lo que tenemos que hacer es copiar el disco duro desde el <em>Administrador de medios virtuales</em> de forma que tenemos una copia igual del mismo pero con diferente identificador.</p>
+</blockquote>
+<h3 id="cambiar-el-cd">Cambiar el CD</h3>
+<p>En cualquier momento podemos cambiar el CD que tenemos en la unidad de CD sin necesidad de apagar la máquina virtual, desde el menú <code>Dispositivos -&gt; Unidades ópticas</code> de la máquina virtual.</p>
+<h2 id="la-red-en-virtualbox">La red en VirtualBox</h2>
+<p>Nuestra máquina virtual, igual que la real, necesita una tarjeta de red para conectarse con el resto de ordenadores (reales o virtuales).</p>
+<p>VirtualBox nos permite poner hasta 4 tarjetas de red en cada máquina virtual y podemos elegir entre diferentes modelos (AMD PC-Net, Intel PRO, etc.). La mayoría de sistemas operativos incluyen drivers para estas tarjetas pero sino siempre podemos elegir un modelo diferente. También nos asigna una MAC por defecto que nosotros podemos cambiar si queremos.</p>
+<figure>
+<img src="./img/xarxa.png" alt="Tarjeta de red" /><figcaption aria-hidden="true">Tarjeta de red</figcaption>
+</figure>
+<p>Pero lo más importante que tenemos que configurar es como se conectará la tarjeta y tenemos varias opciones:</p>
+<ul>
+<li><p><strong>No conectado</strong>: nuestra tarjeta de red no tiene en cable conectado.</p></li>
+<li><p><strong><a href="#nat">NAT</a></strong>: es la manera por defecto en la cual no es necesario configurar nada. VirtualBox crea un router virtual para esa máquina virtual y así la máquina tiene acceso en la red externa (y a Internet) pero nadie puede acceder a ella.</p></li>
+<li><p><strong><a href="#red-nat">Red NAT</a></strong>: es similar al anterior pero en lugar de crear VirtualBox un router virtual para cada máquina crea uno (con el nombre que le indiquemos) al cual podemos conectar más máquinas virtuales con red NAT, que podrán verse entre sí.</p></li>
+<li><p><strong><a href="#adaptador-puente">Adaptador puente</a></strong>: nuestra máquina virtual será una más en la red real. Es el modo que tenemos que utilizar para virtualitzar máquinas que tengan que ser accesibles desde la red real.</p></li>
+<li><p><strong><a href="#red-interna">Red interna</a></strong>: para crear una red entre máquinas virtuales, que tendremos que configurar nosotros. VirtualBox crea un switch virtual (con el nombre que le indiquemos) al que poder conectar más máquinas con red interna que serán visibles entre sí.</p></li>
+<li><p><strong><a href="#adaptador-solo-anfitrión">Adaptador solo anfitrión</a></strong>: crea una red únicamente entre el host y diferentes máquinas virtuales, que no tienen acceso a Internet. Sería equivalente a conectar con un cable cruzado el <em>host</em> con la máquina virtual.</p></li>
+<li><p>Otros tipos de red avanzados como el <strong>túnel UDP</strong> que permite hacer un túnel entre 2 <em>hosts</em> para conectar máquinas o el <strong><em>Cloud Network</em></strong> que nos permite conectarnos a máquinas virtualizadas en la nube de Oracle. Para mayor información consultad la ayuda de VirtualBox.</p></li>
+</ul>
+<p>Vamos a ver en detalle las que más utilizaremos.</p>
+<h3 id="nat">NAT</h3>
+<p>Este es la manera por defecto de la tarjeta de red cuando creamos una nueva máquina virtual.</p>
+<p>Cuando elegimos esta red VirtualBox crea un router virtual para esta máquina que hace de puerta de enlace y se encarga de darle salida al exterior. La IP de este router (es decir, la <strong>puerta de enlace</strong> de la máquina) es la <strong><code>10.0.2.2</code></strong>. Este router dispone de un servidor DHCP que da al cliente la dirección <code>10.0.2.15</code>.</p>
+<figure>
+<img src="./img/xarxa-nat.png" alt="NAT" /><figcaption aria-hidden="true">NAT</figcaption>
+</figure>
+<p>La ventaja de este modo es que no tenemos que configurar nada para que la máquina virtual tenga salida al exterior pero el inconveniente es que la máquina no es accesible desde ningún otro equipo (ni desde la máquina real ni desde el resto de equipos de la red real ni desde otras máquinas virtuales). Para hacerla visible tendríamos que redirigir puertos desde la máquina real a la virtual (VirtualBox permite hacerlo).</p>
+<p>En definitiva es la mejor opción para una máquina virtual que solo necesita tener acceso al exterior y a la que ninguna otra máquina tenga que acceder.</p>
+<h3 id="red-nat">Red NAT</h3>
+<p>Este método imita lo que sería una red doméstica con un router al cual se conectan los equipos. Para usarlo primero tenemos que crear el router virtual desde el <code>menú Archivo -&gt; Preferencias -&gt; Red</code>:</p>
+<figure>
+<img src="./img/xarxa-xarxanat-vb.png" alt="Red NAT en VirtualBox" /><figcaption aria-hidden="true">Red NAT en VirtualBox</figcaption>
+</figure>
+<p>Le damos un nombre en la red y configuramos el router virtual (red, máscara, si tendrá DHCP, reenvío de puertos, etc).</p>
+<p>Una vez hecho ya podemos elegir este método en nuestras máquinas virtuales. Al hacerlo estarán todas en la misma red (por defecto la <em>10.0.2.0/24</em>) por el que serán visibles entre sí y su <strong>puerta de enlace</strong> será la <strong><code>10.0.2.1</code></strong>.</p>
+<figure>
+<img src="./img/xarxa-xarxanat.png" alt="Red NAT" /><figcaption aria-hidden="true">Red NAT</figcaption>
+</figure>
+<p>Si queremos que una máquina virtual sea visible desde el exterior tendríamos que redirigir puertos desde el router virtual.</p>
+<p>Podemos tener diferentes redes NAT creando diferentes routers virtuales.</p>
+<h3 id="adaptador-puente">Adaptador puente</h3>
+<p>En este caso la máquina virtual se conecta directamente a la tarjeta de red de la máquina real (si el <em>host</em> tiene más de una, pregunta cúal utilizar). Es cómo si en nuestra tarjeta de red de la máquina real ahora tuviésemos 2 máquinas conectadas: la propia máquina real más la máquina virtual.</p>
+<figure>
+<img src="./img/xarxa-pont.png" alt="Adaptador puente" /><figcaption aria-hidden="true">Adaptador puente</figcaption>
+</figure>
+<p>La configuración que tendremos que hacer es igual que la de la máquina real: la misma puerta de enlace y máscara de red (pero obviamente con diferente IP). Nuestra máquina virtual será un equipo más de la red real y, por tanto, visible desde cualquier máquina de la red. Si en nuestra red tenemos un servidor DHCP le dará IP automáticamente igual que hace en las máquinas reales.</p>
+<p>Es la mejor opción para crear máquinas virtuales que se comportan como si fueran máquinas reales en nuestra red (por ejemplo para virtualizar un servidor y que los clientes puedan acceder a él como el resto de equipos de la red).</p>
+<h3 id="red-interna">Red interna</h3>
+<p>Esta opción permite crear una red interna entre máquinas virtuales dentro de la máquina real. Es como instalar un switch virtual (con el nombre que le damos en la red interna) al cual podemos conectar todas las máquinas virtuales que queramos (similar a la opción <em>Red NAT</em> pero sin salida al exterior).</p>
+<p>Las máquinas virtuales que estén dentro de la misma red interna serán visibles entre ellas pero no desde el exterior (ni desde la máquina host) y tampoco tendrán salida al exterior.</p>
+<p>Como es una nueva red, nosotros elegiremos sus parámetros (dirección de red, máscara, etc) y tendremos que configurar adecuadamente cada máquina virtual conectada a ella.</p>
+<p>Podemos crear diferentes redes internas (dándole a cada una de ellas diferente nombre) y es cómo si hubiese diferentes switches en la red. Es la opción adecuada para crear una red virtual donde se ven las máquinas virtuales creadas pero que no son accesibles desde fuera.</p>
+<p>Normalmente se incluye en la red una máquina virtual que haga de servidor de comunicaciones de la red y que tenga 2 tarjetas de red:</p>
+<ul>
+<li><p>una interna en la misma red interna que los clientes virtuales que la conecta a ellos.</p></li>
+<li><p>una externa configurada como <em>NAT</em> o <em>Adaptador puente</em> que proporciona en la red interna salida al exterior.</p></li>
+</ul>
+<figure>
+<img src="./img/xarxa-interna.png" alt="Red interna" /><figcaption aria-hidden="true">Red interna</figcaption>
+</figure>
+<h3 id="adaptador-solo-anfitrión">Adaptador solo anfitrión</h3>
+<p>En este caso todas las máquinas virtuales configuradas así se pueden ver entre ellas y también con el <em>anfitrión</em> pero no son accesibles desde fuera ni pueden salir fuera del <em>host</em> puesto que este adaptador no tiene conexión con ninguna tarjeta física del <em>anfitrión</em>. Lo que hace VirtualBox es crear una tarjeta de red virtual en el <em>host</em> a la que se conecta la máquina virtual.</p>
+<p>Para utilizar esta opción desde el <code>menú Archivo -&gt; Configuración -&gt; Red</code> creamos un (o más) adaptador que funciona como sí fuese una tarjeta de red añadida al host pero incomunicada de las otras. A este nuevo adaptador le daremos una IP (por defecto 192.168.56.1) y le podemos configurar un servicio DHCP para dar IP a las máquinas virtuales (por defecto las da en el rango 192.168.56.101-254).</p>
+<h3 id="cambiar-el-tipo-de-la-red">Cambiar el tipo de la red</h3>
+<p>Para cambiar el tipo de red no hay que parar la máquina virtual puesto que es equivalente a conectar el cable de la tarjeta de red en un switch o router diferente.</p>
+<p>Se hace desde el menú <code>Dispositivos -&gt; Adaptadores de red</code>.</p>
+<blockquote>
+<p>Sí hay que pararla para añadir o quitar tarjetas de red.</p>
+</blockquote>
+<h2 id="snapshots-o-instantáneas">Snapshots o Instantáneas</h2>
+<p>Nos permiten guardar “instantáneas” del estado de la nuestra máquina y volver a este estado posteriormente. Es como hacer una copia de seguridad de la máquina.</p>
+<p>Es una opción muy útil cuando hay un cambio en la configuración de la máquina virtual y no sabemos si afectará negativamente esa máquina.</p>
+<figure>
+<img src="./img/snapshot.png" alt="Snapshot" /><figcaption aria-hidden="true">Snapshot</figcaption>
+</figure>
+<p>En esta ventana aparecerán todas las instantáneas y podemos volver a cualquiera de ellas seleccionándola y pulsando el botón de <strong>Restauración</strong> de una instantánea.</p>
+<p>Las instantáneas se guardan en un directorio llamado <strong>Snapshots</strong> dentro del directorio de la máquina virtual.</p>
