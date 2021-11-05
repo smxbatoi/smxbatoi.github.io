@@ -1,4 +1,4 @@
-# UT 3. VirtualBox
+## UT 3. VirtualBox
 - [VirtualBox](#virtualbox)
   - [Introducción](#introducción)
   - [VirtualBox Guest Additions](#virtualbox-guest-additions)
