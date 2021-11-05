@@ -4,7 +4,7 @@
 
 layout: home
 ---
-# Web de apuntes de los diferentes módulos de SMR
+Web de apuntes de los diferentes módulos de SMR
 
 + [SOM](som)
 
